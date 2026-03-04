@@ -167,30 +167,16 @@ h1 {
 
 /* Контейнер поверх затемнения */
 .invite-section .container {
-	position: relative;
-	max-width: 600px;
-	margin: 0 auto;
-	background-color: rgba(255, 255, 255, 0.85);
-	border-radius: 30px;
-	padding: 50px 30px;
-
-	/* Размытые края */
-	box-shadow: 0 0 40px rgba(255, 255, 255, 0.6),
-		0 0 80px rgba(247, 218, 231, 0.4);
-	backdrop-filter: blur(15px);
-	-webkit-backdrop-filter: blur(15px);
-
-	/* Градиентная маска для мягких краёв */
-	-webkit-mask-image: radial-gradient(
-		white,
-		rgba(255, 255, 255, 0.7),
-		rgba(255, 255, 255, 0.5)
-	);
-	mask-image: radial-gradient(
-		white,
-		rgba(255, 255, 255, 0.7),
-		rgba(255, 255, 255, 0.5)
-	);
+	.invite-section .container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.5); /* Как в 4-м блоке (было 0.85) */
+    border-radius: 30px;
+    padding: 50px 30px;
+    box-shadow: 0 10px 40px rgba(165, 81, 102, 0.15); /* Как в 4-м блоке */
+    backdrop-filter: blur(10px); /* Как в 4-м блоке (было 15px) */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .container {
