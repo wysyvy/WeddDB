@@ -31,7 +31,7 @@ body {
 			rgba(253, 252, 250, 0.75),
 			rgba(253, 252, 250, 0.75)
 		),
-		url('img/8-2.png');
+		url('img/8-2.webp');
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
@@ -374,7 +374,7 @@ h1 {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-image: url('img/7.png');
+	background-image: url('img/7.webp');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
