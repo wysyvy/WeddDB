@@ -1755,29 +1755,3 @@ html {
 	transform: translateZ(0);
 	backface-visibility: hidden;
 }
-
-/* Отключаем сложные эффекты на мобильных */
-@media (max-width: 768px) {
-	@keyframes pulse-heart {
-		0%,
-		100% {
-			transform: translate(-50%, -50%) scale(1);
-		}
-		50% {
-			transform: translate(-50%, -50%) scale(1.05);
-		}
-	}
-}
-
-/* Для очень маленьких экранов отключаем анимацию полностью */
-@media (max-width: 480px) {
-	.animate-on-scroll {
-		transition: none;
-		opacity: 1;
-		transform: none;
-	}
-
-	.heart-border-img {
-		animation: none;
-	}
-}
