@@ -28,13 +28,14 @@ body {
 	color: var(--color-text);
 	/* Цветочный фон с затемнением */
 	background-image: linear-gradient(
-			rgba(253, 252, 250, 0.75),
-			rgba(253, 252, 250, 0.75)
+			rgba(253, 252, 250, 0.85),
+			rgba(253, 252, 250, 0.85)
 		),
 		url('img/8-2.png');
-	background-size: cover;
+	background-size: contain; /* МЕНЯЕМ: картинка видна полностью */
 	background-position: center;
-	background-attachment: fixed;
+	background-repeat: repeat; /* Добавляем повторение */
+	background-attachment: scroll;
 }
 
 /* ========================== */
@@ -44,21 +45,15 @@ body {
 .hero-screen {
 	height: 100vh;
 	width: 100%;
-
-	/* РОЗОВЫЙ ФОН поверх цветочного */
 	background-color: var(--color-pink-dark);
-
 	background-size: cover;
 	background-position: center;
 	position: relative;
-
-	border-top-left-radius: 70px;
-	border-top-right-radius: 70px;
-	border-bottom-left-radius: 70px;
-	border-bottom-right-radius: 70px;
+	border-radius: 70px;
+	overflow: hidden;
 }
 
-/* Затемнение поверх картинки (теперь оно розоватое, а не черное) */
+/* Затемнение */
 .hero-screen::before {
 	content: '';
 	position: absolute;
@@ -66,27 +61,58 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	/* Используем самый темный цвет палитры с прозрачностью 50% */
 	background: rgba(211, 140, 157, 0.5);
 	z-index: 1;
+	border-radius: 70px;
+}
 
-	border-top-left-radius: 70px;
-	border-top-right-radius: 70px;
-	border-bottom-left-radius: 70px;
-	border-bottom-right-radius: 70px;
+/* Верхняя часть рамки - прижата к правому верхнему углу */
+.floral-frame-top {
+	position: absolute;
+	top: 10px;
+	right: 280px;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.floral-frame-top img {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 70vh; /* Ограничиваем высоту, чтобы не перекрывать весь экран */
+	display: block;
+	opacity: 0.9;
+}
+
+/* Нижняя часть рамки - прижата к левому нижнему углу */
+.floral-frame-bottom {
+	position: absolute;
+	bottom: 10px;
+	left: 280px;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.floral-frame-bottom img {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 70vh; /* Ограничиваем высоту */
+	display: block;
+	opacity: 0.9;
 }
 
 /* Контейнер для текста */
 .hero-content {
 	position: relative;
-	z-index: 2; /* Текст поверх затемнения */
-	height: 100%;
+	z-index: 3;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	color: var(--color-white1); /* Текст белый для контраста */
+	color: var(--color-white1);
 	padding: 20px;
 }
 
@@ -101,7 +127,6 @@ h1 {
 
 .date {
 	font-size: 18px;
-	/* Рамка вокруг даты среднего розового цвета */
 	border-top: 1px solid var(--color-pink-dark);
 	border-bottom: 1px solid var(--color-pink-dark);
 	padding: 10px 20px;
@@ -115,35 +140,7 @@ h1 {
 	font-style: italic;
 	max-width: 300px;
 	line-height: 1.5;
-	color: var(--color-white1); /* Цитата светло-розовая */
-}
-
-/* Цветочная рамка */
-.floral-frame {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 2; /* Рамка ПОВЕРХ затемнения, но ПОД текстом */
-	pointer-events: none; /* Чтобы не мешала кликам */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	padding: 1% 0.02% 1% 0.02%;
-}
-
-.floral-frame img {
-	width: 100%;
-	height: 100%;
-	object-fit: contain; /* Рамка впишется в экран */
-	opacity: 0.9; /* Немного прозрачности для мягкости */
-}
-
-/* Увеличиваем z-index у текста, чтобы он был ПОВЕРХ рамки */
-.hero-content {
-	z-index: 3;
+	color: var(--color-white1);
 }
 
 /* ========================== */
@@ -161,12 +158,12 @@ h1 {
 	position: relative;
 	max-width: 600px;
 	margin: 0 auto;
-	background-color: rgba(255, 255, 255, 0.5); /* Как в 4-м блоке (было 0.85) */
+	background-color: rgba(255, 255, 255, 0.85); /* МЕНЯЕМ с 0.5 на 0.85 */
 	border-radius: 30px;
 	padding: 50px 30px;
-	box-shadow: 0 10px 40px rgba(165, 81, 102, 0.15); /* Как в 4-м блоке */
-	backdrop-filter: blur(10px); /* Как в 4-м блоке (было 15px) */
-	-webkit-backdrop-filter: blur(10px);
+	box-shadow: 0 10px 40px rgba(165, 81, 102, 0.15);
+	backdrop-filter: blur(0px); /* ОТКЛЮЧАЕМ blur */
+	-webkit-backdrop-filter: blur(0px);
 }
 
 .container {
@@ -265,7 +262,7 @@ h1 {
 	font-size: 17px;
 	font-weight: 600;
 	color: var(--color-burgundy);
-	background-color: var(--color-white);
+
 	border-radius: 50%;
 }
 
@@ -293,11 +290,9 @@ h1 {
 	0%,
 	100% {
 		transform: translate(-50%, -50%) scale(1);
-		opacity: 1;
 	}
 	50% {
-		transform: translate(-50%, -50%) scale(1.15);
-		opacity: 0.6;
+		transform: translate(-50%, -50%) scale(1.1);
 	}
 }
 
@@ -543,10 +538,10 @@ html {
 	max-width: 520px;
 	margin: 0 auto;
 	padding: 50px 40px;
-	background-color: rgba(255, 255, 255, 0.5); /* Полупрозрачный белый */
+	background-color: rgba(255, 255, 255, 0.85); /* МЕНЯЕМ с 0.5 на 0.85 */
 	border-radius: 30px;
 	box-shadow: 0 10px 40px rgba(165, 81, 102, 0.15);
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(0px); /* ОТКЛЮЧАЕМ blur */
 }
 
 /* Заголовок (как во 2-м блоке) */
@@ -648,22 +643,6 @@ html {
 	opacity: 0.95;
 }
 
-/* Номер телефона */
-.rsvp-phone {
-	display: inline-block;
-	font-family: 'Cormorant Garamond', serif;
-	font-size: 32px;
-	font-weight: 600;
-	color: var(--color-white);
-	text-decoration: none;
-	letter-spacing: 2px;
-	transition: 0.3s;
-}
-
-.rsvp-phone:hover {
-	color: var(--color-bg-light);
-}
-
 /* Цветочный край */
 .bottom-floral-border {
 	position: relative;
@@ -684,22 +663,1121 @@ html {
 .rsvp-phone {
 	display: inline-block;
 	font-family: 'Cormorant Garamond', serif;
-	font-size: 28px;
-	font-weight: 600;
-	color: var(--color-white);
+	font-size: 32px;
+	font-weight: 700;
+	color: var(--color-burgundy);
 	text-decoration: none;
-	letter-spacing: 2px;
-	transition: 0.3s;
-	padding: 18px 45px;
-	background-color: rgba(255, 255, 255, 0.2); /* Полупрозрачный фон */
-	border: 2px solid var(--color-white);
-	border-radius: 50px;
+	letter-spacing: 0px;
+	transition: all 0.3s ease;
+	padding: 16px 42px;
+	background-color: rgba(255, 255, 255, 0.8);
+	border: none;
+	border-radius: 90px;
 	cursor: pointer;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 }
 
-.rsvp-phone:hover {
+.rsvp-phone:active {
+	background-color: var(--color-pink-dark);
 	color: var(--color-white);
-	background-color: rgba(255, 255, 255, 0.35);
-	transform: translateY(-3px);
-	box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
+}
+
+/* ========================== */
+/* МЕДИАЗАПРОСЫ ДЛЯ АДАПТАЦИИ */
+/* ========================== */
+
+/* Планшеты и маленькие ноутбуки */
+/* адаптация для экранов до 1024px */
+@media (max-width: 1024px) {
+	/* ========================== */
+	/* 1 БЛОК */
+	/* ========================== */
+	.hero-screen {
+		border-radius: 50px;
+	}
+
+	.hero-screen::before {
+		border-radius: 50px;
+	}
+
+	.floral-frame-top img,
+	.floral-frame-bottom img {
+		max-height: 40vh;
+	}
+
+	h1 {
+		font-size: 42px;
+	}
+
+	/* ========================== */
+	/* 2 БЛОК */
+	/* ========================== */
+	.invite-section .container {
+		max-width: 500px;
+		padding: 40px 25px;
+	}
+
+	.invite-text h2 {
+		font-size: 30px;
+	}
+
+	.invite-text p {
+		font-size: 15px;
+	}
+
+	/* ========================== */
+	/* 3 БЛОК */
+	/* ========================== */
+	.schedule-section {
+		margin: 30px 20px;
+		padding: 25px 15px;
+	}
+
+	.schedule-section h2 {
+		font-size: 30px;
+	}
+
+	.schedule-card {
+		height: 650px;
+		max-width: 400px;
+	}
+
+	.card-content {
+		padding: 120px 40px 50px 40px;
+		max-width: 260px;
+	}
+
+	.event-time {
+		font-size: 32px;
+	}
+
+	.event-title {
+		font-size: 15px;
+	}
+
+	/* ========================== */
+	/* 4 БЛОК */
+	/* ========================== */
+	.wishes-section {
+		padding: 100px 20px 120px 20px;
+	}
+
+	.wishes-card {
+		max-width: 500px;
+		padding: 45px 35px;
+	}
+
+	.wishes-card h2 {
+		font-size: 30px;
+	}
+
+	.wishes-intro,
+	.wishes-text,
+	.wishes-text-secondary {
+		font-size: 15px;
+	}
+
+	/* ========================== */
+	/* 5 БЛОК */
+	/* ========================== */
+	.rsvp-section {
+		padding: 40px 20px 0 20px;
+		border-top-left-radius: 60px;
+		border-top-right-radius: 60px;
+	}
+
+	.rsvp-card h2 {
+		font-size: 30px;
+		margin-bottom: 35px;
+	}
+
+	.rsvp-text,
+	.rsvp-contact-text {
+		font-size: 15px;
+		line-height: 1.6;
+	}
+
+	.rsvp-phone {
+		font-size: 26px;
+		padding: 16px 40px;
+	}
+}
+
+/* Мобильные телефоны (горизонтальная и вертикальная ориентация) */
+/* адаптация для экранов до 768px */
+@media (max-width: 768px) {
+	/* ========================== */
+	/* 1 БЛОК */
+	/* ========================== */
+	.hero-screen {
+		border-radius: 40px;
+		height: 100vh;
+	}
+
+	.hero-screen::before {
+		border-radius: 40px;
+	}
+
+	/* Универсальные отступы с clamp */
+	.floral-frame-top {
+		top: clamp(30px, 15vh, 200px);
+		right: clamp(15px, 5vw, 80px);
+	}
+
+	.floral-frame-bottom {
+		bottom: clamp(30px, 15vh, 200px);
+		left: clamp(15px, 5vw, 80px);
+	}
+
+	.floral-frame-top img,
+	.floral-frame-bottom img {
+		max-height: clamp(25vh, 35vh, 50vh);
+		width: auto;
+	}
+
+	h1 {
+		font-size: clamp(28px, 6vw, 42px);
+	}
+
+	.date {
+		font-size: clamp(14px, 3vw, 18px);
+		padding: 8px 16px;
+	}
+
+	.quote {
+		font-size: clamp(11px, 2.5vw, 14px);
+		max-width: clamp(200px, 60vw, 300px);
+	}
+
+	/* ========================== */
+	/* 2 БЛОК */
+	/* ========================== */
+	.invite-section {
+		padding: 40px 15px;
+	}
+
+	.invite-section .container {
+		max-width: 500px; /* Возвращаем фиксированную ширину */
+		padding: 30px 20px;
+		margin: 0 auto;
+	}
+
+	.invite-text h2 {
+		font-size: 28px;
+		margin-bottom: 15px;
+	}
+
+	.invite-text p {
+		font-size: 14px;
+		line-height: 1.5;
+		margin-bottom: 12px;
+	}
+
+	.calendar-wrapper {
+		margin-top: 30px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.calendar {
+		max-width: 320px; /* Фиксированная ширина, как на десктопе */
+		padding: 15px 5px;
+		margin: 0 auto;
+	}
+
+	.calendar-header {
+		font-size: 24px;
+		margin-bottom: 15px;
+	}
+
+	.calendar-grid {
+		gap: 4px;
+	}
+
+	.day-name {
+		font-size: 10px;
+		padding: 6px 2px;
+	}
+
+	.day {
+		font-size: 14px;
+	}
+
+	.wedding-day {
+		background-color: transparent;
+		width: auto;
+		height: auto;
+		font-size: 16px;
+	}
+
+	.heart-border-img {
+		width: 45px;
+		height: 45px;
+	}
+
+	/* ========================== */
+	/* 3 БЛОК */
+	/* ========================== */
+	.schedule-section {
+		margin: 0;
+		padding: 40px 20px;
+		border-radius: 50px;
+	}
+
+	.schedule-section h2 {
+		font-size: 28px;
+		margin-bottom: 10px;
+	}
+
+	.schedule-card {
+		height: 680px;
+		max-width: 400px;
+		margin: 0 auto;
+	}
+
+	.card-frame-bg {
+		transform: scale(1.3);
+		background-position: center;
+	}
+
+	.card-content {
+		position: relative;
+		z-index: 2;
+		padding: 150px 35px 150px 30px; /* Уменьшаем отступы сверху и снизу */
+		max-width: 260px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between; /* Равномерно распределяем пространство между элементами */
+		min-height: 100%;
+	}
+
+	.event-item {
+		padding: 5px 0;
+		width: 100%;
+		text-align: center;
+	}
+
+	.event-time {
+		font-size: 32px;
+		margin-bottom: 8px;
+	}
+
+	.event-title {
+		font-size: 15px;
+		margin-bottom: 10px;
+		letter-spacing: 1px;
+	}
+
+	.event-location {
+		font-size: 13px;
+		margin-bottom: 4px;
+	}
+
+	.event-address {
+		font-size: 11px;
+	}
+
+	.event-divider {
+		width: 50px;
+		height: 2px;
+		background-color: var(--color-pink-med);
+		margin: 40px auto; /* Увеличиваем расстояние между событиями */
+		opacity: 0.5;
+	}
+
+	/* ========================== */
+	/* 4 БЛОК */
+	/* ========================== */
+	.wishes-section {
+		padding: 80px 15px 100px 15px;
+	}
+
+	.wishes-card {
+		max-width: 100%;
+		padding: 35px 25px;
+		margin: 0 15px;
+	}
+
+	.wishes-card h2 {
+		font-size: 28px;
+		margin-bottom: 25px;
+	}
+
+	.wishes-intro {
+		font-size: 14px;
+		line-height: 1.5;
+		margin-bottom: 20px;
+	}
+
+	.wishes-divider {
+		width: 50px;
+		margin: 25px auto;
+	}
+
+	.wishes-text,
+	.wishes-text-secondary {
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	/* ========================== */
+	/* 5 БЛОК */
+	/* ========================== */
+	.rsvp-section {
+		padding: 35px 25px 0 25px; /* Увеличили боковые отступы с 15px до 25px */
+		border-top-left-radius: 50px;
+		border-top-right-radius: 50px;
+	}
+
+	.rsvp-card {
+		max-width: 100%;
+		padding-bottom: 8px;
+	}
+
+	.rsvp-card h2 {
+		font-size: 28px;
+		margin-bottom: 30px;
+	}
+
+	.rsvp-text {
+		font-size: 14px;
+		line-height: 1.6;
+		margin-bottom: 20px;
+	}
+
+	.rsvp-contact-text {
+		font-size: 14px;
+		line-height: 1.6;
+		margin-bottom: 30px;
+	}
+
+	.rsvp-phone {
+		font-size: 24px;
+		padding: 14px 35px;
+	}
+
+	.bottom-floral-border {
+		margin-top: 25px;
+	}
+}
+
+/* Маленькие мобильные телефоны */
+/* адаптация для экранов до 480px */
+@media (max-width: 480px) {
+	/* ========================== */
+	/* 1 БЛОК */
+	/* ========================== */
+	.hero-screen {
+		border-radius: 30px;
+	}
+
+	.hero-screen::before {
+		border-radius: 30px;
+	}
+
+	.floral-frame-top {
+		top: clamp(130px, 18vh, 180px);
+		right: clamp(0px, 1vw, 10px);
+	}
+
+	.floral-frame-bottom {
+		bottom: clamp(130px, 18vh, 180px);
+		left: clamp(0px, 1vw, 10px);
+	}
+
+	.floral-frame-top img,
+	.floral-frame-bottom img {
+		max-height: clamp(28vh, 35vh, 42vh);
+	}
+
+	h1 {
+		font-size: clamp(28px, 6vw, 32px);
+		margin-bottom: 5px; /* Уменьшаем отступ между h1 и датой */
+		margin-top: 80px;
+	}
+
+	.date {
+		font-size: clamp(14px, 3vw, 16px);
+		padding: clamp(8px, 2vh, 12px) clamp(15px, 4vw, 22px);
+		margin: 5px 0; /* Уменьшаем отступы даты */
+	}
+
+	.quote {
+		font-size: clamp(11px, 2.5vw, 13px);
+		max-width: clamp(220px, 70vw, 280px);
+		margin-top: 5px;
+		margin-bottom: 100px;
+		display: inline-block;
+	}
+
+	/* Скрываем оригинальный текст */
+	.quote {
+		font-size: clamp(11px, 2.5vw, 13px);
+		max-width: clamp(220px, 70vw, 280px);
+		margin-top: 5px;
+		margin-bottom: 100px;
+		display: inline-block;
+		line-height: 1.2; /* Добавляем компактную высоту строки */
+	}
+
+	/* Скрываем оригинальный текст */
+	.quote {
+		visibility: hidden;
+		position: relative;
+	}
+
+	/* Создаем новый текст с переносом */
+	.quote::before {
+		content: 'Любовь — это когда счастье другого';
+		visibility: visible;
+		display: block;
+		position: relative;
+		margin-bottom: -25px; /* Уменьшаем расстояние между строчками */
+	}
+
+	.quote::after {
+		content: 'важнее твоего собственного.';
+		visibility: visible;
+		display: block;
+		position: relative;
+	}
+
+	/* ========================== */
+	/* 2 БЛОК */
+	/* ========================== */
+	.invite-section {
+		padding: 30px 10px;
+	}
+
+	.invite-section .container {
+		padding: 25px 15px;
+		margin: 0 10px;
+	}
+
+	.invite-text h2 {
+		font-size: 24px;
+		margin-bottom: 12px;
+	}
+
+	.invite-text p {
+		font-size: 13px;
+		line-height: 1.5;
+		margin-bottom: 10px;
+	}
+
+	.calendar-wrapper {
+		margin-top: 25px;
+	}
+
+	.calendar {
+		padding: 10px 5px;
+	}
+
+	.calendar-header {
+		font-size: 20px;
+		margin-bottom: 12px;
+	}
+
+	.calendar-grid {
+		gap: 2px; /* Маленькое расстояние между ячейками */
+	}
+
+	.day-name {
+		font-size: 9px;
+		padding: 5px 1px;
+	}
+
+	.day {
+		font-size: 15px; /* Увеличиваем цифры */
+	}
+
+	.wedding-day {
+		width: 38px;
+		height: 38px;
+		font-size: 17px; /* Увеличиваем цифру в дне свадьбы */
+	}
+
+	.heart-border-img {
+		width: 45px;
+		height: 45px;
+	}
+
+	/* ========================== */
+	/* 3 БЛОК */
+	/* ========================== */
+	.schedule-section {
+		margin: 0;
+		padding: 5vh 15px;
+		border-radius: 40px;
+	}
+
+	.schedule-section h2 {
+		font-size: clamp(22px, 6vw, 28px);
+	}
+
+	.schedule-card {
+		height: auto;
+		max-width: min(90vw, 380px);
+		margin: 0 auto;
+		aspect-ratio: 0.7;
+	}
+
+	.card-frame-bg {
+		transform: scale(1.2);
+		background-position: center;
+		background-size: contain;
+	}
+
+	.card-content {
+		padding: 12% 8%;
+		max-width: 75%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 100%;
+	}
+
+	.event-item {
+		padding: 5px 0;
+		width: 100%;
+		text-align: center;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+
+	/* Первый блок текста (15:00) - опускаем сильнее */
+	.event-item:first-child {
+		margin-top: 70px;
+	}
+
+	/* Второй блок текста (18:00) - поднимаем сильнее */
+	.event-item:last-child {
+		margin-bottom: 70px;
+	}
+
+	.event-time {
+		font-size: clamp(22px, 5vw, 28px);
+		margin-bottom: 4px;
+	}
+
+	.event-title {
+		font-size: clamp(11px, 3vw, 13px);
+		margin-bottom: 6px;
+		letter-spacing: 0.5px;
+	}
+
+	.event-location {
+		font-size: clamp(10px, 2.5vw, 12px);
+		margin-bottom: 3px;
+	}
+
+	/* Стили для первого адреса (Дворец Бракосочетания) - оставляем без изменений */
+	.event-item:first-child .event-address {
+		font-size: clamp(9px, 2.2vw, 11px);
+		line-height: 1.3;
+		visibility: visible;
+		position: static;
+	}
+
+	.event-item:first-child .event-address::before,
+	.event-item:first-child .event-address::after {
+		content: none;
+	}
+
+	/* Стили для второго адреса (ул. Освобождения) - делаем перенос */
+	.event-item:last-child .event-address {
+		font-size: clamp(9px, 2.2vw, 11px);
+		line-height: 1.3;
+		display: inline-block;
+		visibility: hidden;
+		position: relative;
+	}
+
+	.event-item:last-child .event-address::before {
+		content: 'г. Тверь, ул. Освобождения,';
+		visibility: visible;
+		display: block;
+		position: relative;
+		margin-bottom: -10px;
+	}
+
+	.event-item:last-child .event-address::after {
+		content: '199, стр.1';
+		visibility: visible;
+		display: block;
+		position: relative;
+	}
+
+	.event-divider {
+		width: min(40px, 12vw);
+		height: 2px;
+		margin: clamp(20px, 4vh, 35px) auto;
+	}
+
+	/* ========================== */
+	/* 4 БЛОК */
+	/* ========================== */
+	.wishes-section {
+		padding: 60px 10px 80px 10px;
+	}
+
+	.wishes-card {
+		padding: 28px 20px;
+		margin: 0 10px;
+	}
+
+	.wishes-card h2 {
+		font-size: 26px;
+		margin-bottom: 20px;
+	}
+
+	.wishes-intro {
+		font-size: 13px;
+		line-height: 1.5;
+		margin-bottom: 18px;
+	}
+
+	.wishes-divider {
+		width: 45px;
+		margin: 22px auto;
+	}
+
+	.wishes-text,
+	.wishes-text-secondary {
+		font-size: 13px;
+		line-height: 1.5;
+	}
+
+	/* ========================== */
+	/* 5 БЛОК */
+	/* ========================== */
+	.rsvp-section {
+		padding: 30px 20px 0 20px; /* Увеличили боковые отступы с 10px до 20px */
+		border-top-left-radius: 40px;
+		border-top-right-radius: 40px;
+	}
+
+	.rsvp-card h2 {
+		font-size: 26px;
+		margin-bottom: 25px;
+	}
+
+	.rsvp-text {
+		font-size: 13px;
+		line-height: 1.5;
+		margin-bottom: 18px;
+	}
+
+	.rsvp-contact-text {
+		font-size: 13px;
+		line-height: 1.5;
+		margin-bottom: 25px;
+	}
+
+	.rsvp-phone {
+		font-size: 22px;
+		padding: 12px 30px;
+	}
+
+	.bottom-floral-border {
+		margin-top: 20px;
+	}
+}
+
+/* Очень маленькие телефоны (до 360px) */
+@media (max-width: 360px) {
+	/* ========================== */
+	/* 1 БЛОК */
+	/* ========================== */
+	.floral-frame-top {
+		top: clamp(15px, 6vh, 80px);
+		right: clamp(0px, 1vw, 8px);
+	}
+
+	.floral-frame-bottom {
+		bottom: clamp(15px, 6vh, 80px);
+		left: clamp(0px, 1vw, 8px);
+	}
+
+	.floral-frame-top img,
+	.floral-frame-bottom img {
+		max-height: clamp(35vh, 42vh, 48vh);
+		width: auto;
+	}
+
+	h1 {
+		font-size: clamp(28px, 7vw, 32px);
+		margin-bottom: 2px; /* Уменьшаем расстояние между h1 и датой */
+	}
+
+	.date {
+		font-size: clamp(14px, 3.5vw, 16px);
+		padding: clamp(6px, 1.5vh, 10px) clamp(12px, 3vw, 20px);
+		margin: 2px 0; /* Уменьшаем отступы даты */
+	}
+
+	.quote {
+		font-size: clamp(10px, 2.2vw, 12px);
+		max-width: clamp(200px, 65vw, 260px);
+		margin-top: 2px; /* Уменьшаем расстояние между датой и цитатой */
+		margin-bottom: 120px;
+		display: inline-block;
+		line-height: 1.2;
+	}
+
+	/* Скрываем оригинальный текст */
+	.quote {
+		visibility: hidden;
+		position: relative;
+	}
+
+	/* Создаем новый текст с переносом */
+	.quote::before {
+		content: 'Любовь — это когда счастье другого';
+		visibility: visible;
+		display: block;
+		position: relative;
+		margin-bottom: -25px; /* Уменьшаем расстояние между строчками цитаты */
+	}
+
+	.quote::after {
+		content: 'важнее твоего собственного.';
+		visibility: visible;
+		display: block;
+		position: relative;
+	}
+
+	/* ========================== */
+	/* 2 БЛОК */
+	/* ========================== */
+	.invite-section .container {
+		padding: 20px 12px;
+	}
+
+	.invite-text h2 {
+		font-size: 22px;
+	}
+
+	.invite-text p {
+		font-size: 12px;
+	}
+
+	.calendar-header {
+		font-size: 18px;
+	}
+
+	.calendar-grid {
+		gap: 2px;
+	}
+
+	.day-name {
+		font-size: 8px;
+	}
+
+	.day {
+		font-size: 14px; /* Увеличиваем цифры */
+	}
+
+	.wedding-day {
+		width: 34px;
+		height: 34px;
+		font-size: 16px; /* Увеличиваем цифру в дне свадьбы */
+	}
+
+	.heart-border-img {
+		width: 40px;
+		height: 40px;
+	}
+
+	/* ========================== */
+	/* 3 БЛОК */
+	/* ========================== */
+	.schedule-section {
+		margin: 15px 8px;
+		border-radius: 35px;
+	}
+
+	.schedule-section h2 {
+		font-size: 22px;
+	}
+
+	.schedule-card {
+		height: 520px;
+		max-width: 280px;
+	}
+
+	.card-content {
+		padding: 75px 20px 30px 20px;
+		max-width: 200px;
+	}
+
+	.event-time {
+		font-size: 26px;
+	}
+
+	.event-title {
+		font-size: 12px;
+	}
+
+	.event-location {
+		font-size: 11px;
+	}
+
+	.event-address {
+		font-size: 9px;
+	}
+
+	.event-divider {
+		width: 40px;
+		margin: 18px 0;
+	}
+
+	/* ========================== */
+	/* 3 БЛОК */
+	/* ========================== */
+	.schedule-section {
+		margin: 0;
+		padding: 4vh 12px 2vh 12px;
+		border-radius: 35px;
+	}
+
+	.schedule-section h2 {
+		font-size: clamp(20px, 5vw, 24px);
+		margin-bottom: -15px;
+		text-align: center;
+	}
+
+	.schedule-card {
+		max-width: min(85vw, 320px);
+		aspect-ratio: 0.68;
+		margin: -10px auto 0 auto;
+	}
+
+	.card-frame-bg {
+		transform: scale(1.18);
+		background-position: center;
+	}
+
+	.card-content {
+		padding: 10% 6%;
+		max-width: 72%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 100%;
+		position: relative;
+		left: -2px;
+	}
+
+	.event-item {
+		padding: 3px 0;
+		width: 100%;
+		text-align: center;
+	}
+
+	/* Первый блок текста (15:00) */
+	.event-item:first-child {
+		margin-top: 130px;
+	}
+
+	/* Второй блок текста (18:00) */
+	.event-item:last-child {
+		margin-bottom: 130px;
+	}
+
+	.event-time {
+		font-size: clamp(20px, 4.5vw, 26px);
+		margin-bottom: 3px;
+		text-align: center;
+	}
+
+	.event-title {
+		font-size: clamp(10px, 2.8vw, 12px);
+		margin-bottom: 5px;
+		letter-spacing: 0.3px;
+		text-align: center;
+	}
+
+	.event-location {
+		font-size: clamp(9px, 2.2vw, 11px);
+		margin-bottom: 2px;
+		text-align: center;
+	}
+
+	/* Первый адрес - делаем перенос */
+	.event-item:first-child .event-address {
+		font-size: clamp(8px, 2vw, 10px);
+		line-height: 1.2;
+		display: inline-block;
+		visibility: hidden;
+		position: relative;
+		text-align: center;
+	}
+
+	.event-item:first-child .event-address::before {
+		content: 'г. Тверь,';
+		visibility: visible;
+		display: block;
+		position: relative;
+		margin-bottom: -8px;
+		font-size: clamp(8px, 2vw, 10px);
+		text-align: center;
+	}
+
+	.event-item:first-child .event-address::after {
+		content: 'Свободный переулок, д. 5.';
+		visibility: visible;
+		display: block;
+		position: relative;
+		margin-bottom: -8px;
+		font-size: clamp(8px, 2vw, 10px);
+		text-align: center;
+	}
+
+	/* Второй адрес - с переносом */
+	.event-item:last-child .event-address {
+		font-size: clamp(8px, 2vw, 10px);
+		line-height: 1.2;
+		display: inline-block;
+		visibility: hidden;
+		position: relative;
+		text-align: center;
+	}
+
+	.event-item:last-child .event-address::before {
+		content: 'г. Тверь, ул. Освобождения,';
+		visibility: visible;
+		display: block;
+		position: relative;
+		margin-bottom: -8px;
+		font-size: clamp(8px, 2vw, 10px);
+		text-align: center;
+	}
+
+	.event-item:last-child .event-address::after {
+		content: '199, стр.1';
+		visibility: visible;
+		display: block;
+		position: relative;
+		font-size: clamp(8px, 2vw, 10px);
+		text-align: center;
+	}
+
+	.event-divider {
+		width: min(35px, 10vw);
+		height: 2px;
+		margin: clamp(18px, 3.5vh, 30px) auto;
+	}
+
+	/* ========================== */
+	/* 4 БЛОК */
+	/* ========================== */
+	.wishes-section {
+		padding: 50px 8px 70px 8px;
+	}
+
+	.wishes-card {
+		padding: 22px 16px;
+		margin: 0 8px;
+	}
+
+	.wishes-card h2 {
+		font-size: 24px;
+		margin-bottom: 18px;
+	}
+
+	.wishes-intro {
+		font-size: 12px;
+		line-height: 1.4;
+		margin-bottom: 15px;
+	}
+
+	.wishes-divider {
+		width: 40px;
+		margin: 20px auto;
+	}
+
+	.wishes-text,
+	.wishes-text-secondary {
+		font-size: 12px;
+		line-height: 1.4;
+	}
+
+	/* ========================== */
+	/* 5 БЛОК */
+	/* ========================== */
+	.rsvp-section {
+		padding: 25px 15px 0 15px; /* Увеличили боковые отступы с 8px до 15px */
+		border-top-left-radius: 35px;
+		border-top-right-radius: 35px;
+	}
+
+	.rsvp-card h2 {
+		font-size: 24px;
+		margin-bottom: 22px;
+	}
+
+	.rsvp-text {
+		font-size: 12px;
+		line-height: 1.4;
+		margin-bottom: 15px;
+	}
+
+	.rsvp-contact-text {
+		font-size: 12px;
+		line-height: 1.4;
+		margin-bottom: 22px;
+	}
+
+	.rsvp-phone {
+		font-size: 20px;
+		padding: 10px 25px;
+	}
+
+	.bottom-floral-border {
+		margin-top: 18px;
+	}
+}
+
+/* ========================== */
+/* ДОПОЛНИТЕЛЬНАЯ ОПТИМИЗАЦИЯ */
+/* ========================== */
+
+/* Улучшаем производительность анимаций */
+.animate-on-scroll {
+	transform: translateZ(0);
+	backface-visibility: hidden;
+}
+
+/* Отключаем сложные эффекты на мобильных */
+@media (max-width: 768px) {
+	@keyframes pulse-heart {
+		0%,
+		100% {
+			transform: translate(-50%, -50%) scale(1);
+		}
+		50% {
+			transform: translate(-50%, -50%) scale(1.05);
+		}
+	}
+}
+
+/* Для очень маленьких экранов отключаем анимацию полностью */
+@media (max-width: 480px) {
+	.animate-on-scroll {
+		transition: none;
+		opacity: 1;
+		transform: none;
+	}
+
+	.heart-border-img {
+		animation: none;
+	}
 }

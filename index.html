@@ -34,12 +34,17 @@
 		<link rel="shortcut icon" href="favicon/favicon.ico" />
 
 		<link rel="stylesheet" href="style.css" />
+
+		<!-- Оптимизация загрузки -->
+		<link rel="preload" as="image" href="img/4-1.png" />
+		<link rel="preload" as="image" href="img/4-2.png" />
 	</head>
 	<body>
 		<!-- БЛОК 1: Главный экран -->
 		<header class="hero-screen">
-			<div class="floral-frame">
-				<img src="img/4.png" alt="floral frame" />
+			<!-- Верхняя часть рамки -->
+			<div class="floral-frame-top">
+				<img src="img/4-1.png" alt="floral frame top" />
 			</div>
 
 			<div class="hero-content">
@@ -48,6 +53,11 @@
 				<p class="quote">
 					Любовь — это когда счастье другого важнее твоего собственного.
 				</p>
+			</div>
+
+			<!-- Нижняя часть рамки -->
+			<div class="floral-frame-bottom">
+				<img src="img/4-2.png" alt="floral frame bottom" />
 			</div>
 		</header>
 
@@ -142,7 +152,7 @@
 								<div class="event-title">Церемония</div>
 								<div class="event-location">Дворец Бракосочетания №1</div>
 								<div class="event-address">
-									г. Тверь, Свободный переулокд. 5.
+									г. Тверь, Свободный переулокд. 5
 								</div>
 							</div>
 

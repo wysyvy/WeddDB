@@ -1,75 +1,106 @@
 // Ждём полной загрузки страницы
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Убираем класс no-js, если JS работает
-    document.documentElement.classList.remove('no-js');
-    
-    // Находим все элементы с классом animate-on-scroll
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    
-    // Функция для проверки, виден ли элемент на экране
-    function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-        
-        // Элемент считается видимым, когда его верхняя часть входит в экран
-        // с небольшим отступом (100px) для более плавного появления
-        return rect.top < windowHeight - 100 && rect.bottom > 0;
-    }
-    
-    // Функция для показа элемента
-    function showElement(el) {
-        // Добавляем класс is-visible, который активирует CSS-переход
-        el.classList.add('is-visible');
-    }
-    
-    // Функция для проверки всех элементов при скролле
-    function checkVisibility() {
-        animatedElements.forEach(el => {
-            if (!el.classList.contains('is-visible') && isElementInViewport(el)) {
-                showElement(el);
-            }
-        });
-    }
-    
-    // Проверяем элементы сразу после загрузки страницы
-    // Ждём небольшую задержку, чтобы страница полностью отрисовалась
-    setTimeout(() => {
-        checkVisibility();
-    }, 100);
-    
-    // Используем Intersection Observer для современных браузеров (более производительно)
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    showElement(entry.target);
-                    // После показа прекращаем наблюдение за элементом
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1, // Элемент показывается, когда видно хотя бы 10%
-            rootMargin: '0px 0px -50px 0px' // Небольшой отступ для более плавного появления
-        });
-        
-        // Наблюдаем за всеми элементами
-        animatedElements.forEach(el => {
-            observer.observe(el);
-        });
-    } else {
-        // Fallback для старых браузеров
-        window.addEventListener('scroll', checkVisibility, { passive: true });
-        window.addEventListener('resize', checkVisibility, { passive: true });
-    }
-    
-    // Убедимся, что первый блок (hero-screen) не перекрывается анимациями
-    const heroContent = document.querySelector('.hero-content');
-    if (heroContent) {
-        // Убедимся, что CSS-анимация первого блока работает правильно
-        heroContent.style.opacity = '1';
-        heroContent.style.animation = 'fadeInUp 1s ease-out forwards';
-    }
-    
-    console.log('Анимации загружены! Количество элементов:', animatedElements.length);
-});
+document.addEventListener('DOMContentLoaded', function () {
+	// Убираем класс no-js, если JS работает
+	document.documentElement.classList.remove('no-js')
+
+	// Находим все элементы с классом animate-on-scroll
+	const animatedElements = document.querySelectorAll('.animate-on-scroll')
+
+	// Проверяем, поддерживает ли браузер Intersection Observer
+	if ('IntersectionObserver' in window) {
+		// Создаем один observer для всех элементов
+		const observer = new IntersectionObserver(
+			entries => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						// Добавляем класс is-visible
+						entry.target.classList.add('is-visible')
+						// После показа прекращаем наблюдение за элементом (оптимизация)
+						observer.unobserve(entry.target)
+					}
+				})
+			},
+			{
+				threshold: 0.1,
+				rootMargin: '0px 0px -50px 0px',
+			}
+		)
+
+		// Наблюдаем за всеми элементами
+		animatedElements.forEach(el => {
+			observer.observe(el)
+		})
+	} else {
+		// Fallback для старых браузеров
+		function checkVisibility() {
+			animatedElements.forEach(el => {
+				if (!el.classList.contains('is-visible') && isElementInViewport(el)) {
+					el.classList.add('is-visible')
+				}
+			})
+		}
+
+		function isElementInViewport(el) {
+			const rect = el.getBoundingClientRect()
+			const windowHeight =
+				window.innerHeight || document.documentElement.clientHeight
+			return rect.top < windowHeight - 100 && rect.bottom > 0
+		}
+
+		// Используем requestAnimationFrame для плавности
+		let ticking = false
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (!ticking) {
+					requestAnimationFrame(() => {
+						checkVisibility()
+						ticking = false
+					})
+					ticking = true
+				}
+			},
+			{ passive: true }
+		)
+
+		// Проверяем при загрузке
+		setTimeout(checkVisibility, 100)
+	}
+
+	// Убедимся, что первый блок (hero-screen) отображается сразу
+	const heroContent = document.querySelector('.hero-content')
+	if (heroContent) {
+		heroContent.style.opacity = '1'
+		heroContent.style.animation = 'fadeInUp 1s ease-out forwards'
+	}
+
+	// Анимация для рамок с использованием requestAnimationFrame
+	const floralFrameTop = document.querySelector('.floral-frame-top img')
+	const floralFrameBottom = document.querySelector('.floral-frame-bottom img')
+
+	if (floralFrameTop) {
+		requestAnimationFrame(() => {
+			floralFrameTop.style.animation = 'fadeIn 1.2s ease-out forwards'
+			floralFrameTop.style.animationDelay = '0.3s'
+		})
+	}
+
+	if (floralFrameBottom) {
+		requestAnimationFrame(() => {
+			floralFrameBottom.style.animation = 'fadeIn 1.2s ease-out forwards'
+			floralFrameBottom.style.animationDelay = '0.5s'
+		})
+	}
+
+	// Оптимизация: предзагрузка изображений, которые появятся позже
+	const preloadImages = ['img/7.png', 'img/8-2.png']
+	preloadImages.forEach(src => {
+		const img = new Image()
+		img.src = src
+	})
+
+	console.log(
+		'Сайт оптимизирован, количество анимированных элементов:',
+		animatedElements.length
+	)
+})
