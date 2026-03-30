@@ -1755,3 +1755,26 @@ html {
 	transform: translateZ(0);
 	backface-visibility: hidden;
 }
+
+/* ========================== */
+/* АНИМАЦИЯ НА МОБИЛЬНЫХ */
+/* ========================== */
+
+/* Включаем анимацию сердца на всех экранах */
+.heart-border-img {
+	animation: pulse-heart 1.5s ease-in-out infinite;
+}
+
+/* Для мобильных телефонов (до 768px) - оставляем анимацию */
+@media (max-width: 768px) {
+	.heart-border-img {
+		animation: pulse-heart 1.5s ease-in-out infinite;
+	}
+}
+
+/* Для маленьких телефонов (до 480px) - тоже оставляем анимацию */
+@media (max-width: 480px) {
+	.heart-border-img {
+		animation: pulse-heart 1.5s ease-in-out infinite;
+	}
+}
